@@ -99,7 +99,15 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        head = self.storage[index]
+
+        while head:
+            if head.key == key:
+                return head.value
+            head = head.next
+
+        return None
 
     def resize(self):
         '''
@@ -108,7 +116,19 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        storage = self.storage
+        capacity = self.capacity
+        self.capacity *= 2
+        self.storage = [None] * self.capacity
+
+        for i in range(capacity):
+            curr = storage[i]
+            if curr is None:
+                continue
+            while curr.next:
+                self.insert(curr.key, curr.value)
+                curr = curr.next
+            self.insert(curr.key, curr.value)
 
 
 if __name__ == "__main__":
